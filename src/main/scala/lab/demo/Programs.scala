@@ -126,8 +126,11 @@ class Main15 extends AggregateProgramSkeleton:
 object Demo15 extends Simulation[Main15]
 
 class Main16 extends AggregateProgramSkeleton:
-  override def main() = rep(Double.MaxValue):
-    d => mux[Double](sense1){0.0}{minHoodPlus(nbr{d}+nbrRange)}
+  override def main() =
+    branch(sense2)(Double.MaxValue)(
+      rep(Double.MaxValue):
+        d => mux[Double](sense1){0.0}{minHoodPlus(nbr{d}+nbrRange)}
+    )
 
 object Demo16 extends Simulation[Main16]
 
@@ -146,3 +149,8 @@ class Main19 extends AggregateProgramSkeleton with BlockT:
   override def main() =
     decay(10000, 0)(_ - 1)
 object Demo19 extends Simulation[Main19]
+
+/*
+def gradient(source: Boolean, range: () => Double) = rep((Double.MaxValue, mid)):
+    d => mux[(Double, Int)](source){(0.0, mid)}{minHoodPlus( (nbr{d}._1 + range(), nbr{d}._2))}
+ */
